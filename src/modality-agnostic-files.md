@@ -560,7 +560,8 @@ sessions.json
 
 Optional: Yes
 
-As RECOMMENDED in [the tabular phenotypic data guidelines appendix](./appendices/phenotype.md), a sessions file CAN be provided at the dataset root.
+As RECOMMENDED in [the tabular phenotypic data guidelines appendix](./appendices/phenotype.md),
+a sessions file CAN be provided at the dataset root.
 If a root-level sessions file is provided, then it MUST begin with
 a `participant_id` column followed immediately after by a `session_id` column.
 
