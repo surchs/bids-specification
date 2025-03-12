@@ -15,7 +15,7 @@ Tabular phenotypic data files are prepared as one pair of data dictionary JavaSc
 In phenotypic and assessment data each measurement tool has an independent aggregated data TSV file in which the user collects all subjects, sessions, and/or runs of data as one entry per row (with a row defined by the smallest unit of acquisition). In other words:
 
 1. Each row MUST start with `participant_id`.
-2. Each TSV file MUST contain a `session_id` column when multiple sessions[^1] are present in the data set regardless of whether those sessions are in the `phenotype/` data, `sub-<label>/` data, or a combination of the two.
+2. Each TSV file MUST contain a `session_id` column when multiple [sessions](../glossary.md#session-entities)[^1] are present in the data set regardless of whether those sessions are in the `phenotype/` data, `sub-<label>/` data, or a combination of the two.
 3. If more than one of the same measurement tool is acquired within the same `session_id`, a run column MUST be added.
 4. To encode the acquisition time for a measurement tool’s `session_id`, add the `session_id` to the sessions file and include the OPTIONAL `acq_time` column.
 
@@ -79,6 +79,8 @@ sub-01	value1	value2
 ```
 
 ### 1 participant with 2 sessions, where 1 session is only tabular phenotype and the other is only imaging
+
+With only two sessions like this you might want to make it look like one session, but it is more correct to have the sessions separated and have `session_id` `Levels` noted in the `sessions.json`, especially if the sessions were collected days, weeks, or months apart.
 
 Below are a CORRECT and an INCORRECT example of prepared data following these guidelines.
 
@@ -243,6 +245,6 @@ sub-03	ses-followupMRI	5	10	4
 
 For more complete examples, see the `pheno00*` bids-examples on GitHub.
 
-[^1]: A session is any logical grouping of imaging and behavioral data consistent across participants. Session can (but doesn't have to) be synonymous to a visit in a longitudinal study. In situations where different data types are obtained over several visits (for example fMRI on one day followed by DWI the day after) those can still be grouped in one session.
+[^1]: A session is any logical grouping of imaging and behavioral data consistent across participants. Session can (but doesn't have to) be synonymous to a visit in a longitudinal study. In situations where different data types are obtained over several visits (for example fMRI on one day followed by DWI the day after) those can still be grouped in one session. Refer to the [definition of session](../glossary.md#session-entities) for more details.
 
-[^2]: Datetime format and the anonymization procedure are described in [Units](https://bids-specification.readthedocs.io/02-common-principles.html#units).
+[^2]: Datetime format and the anonymization procedure are described in [Units](../02-common-principles.md#units).
