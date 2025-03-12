@@ -496,11 +496,18 @@ meg/sub-control01_task-rest_split-02_meg.nii.gz	1877-06-15T12:15:27
 
 ## Sessions file
 
-Template:
+Template A (segregated sessions files):
 
 ```Text
 sub-<label>/
     sub-<label>_sessions.tsv
+```
+
+Template B (aggregated sessions file):
+
+```Text
+sessions.tsv
+sessions.json
 ```
 
 Optional: Yes
@@ -520,13 +527,26 @@ and a guide for using macros can be found at
 -->
 {{ MACROS___make_columns_table("modality_agnostic.Sessions") }}
 
-`_sessions.tsv` example:
+`sub-<label>/sub-<label>_sessions.tsv` example:
 
 ```Text
 session_id	acq_time	systolic_blood_pressure
 ses-predrug	2009-06-15T13:45:30	120
 ses-postdrug	2009-06-16T13:45:30	100
 ses-followup	2009-06-17T13:45:30	110
+```
+
+`sessions.tsv` example:
+
+```Text
+participant_id	session_id	acq_time	systolic_blood_pressure
+sub-01	ses-predrug	2009-06-15T13:45:30	120
+sub-01	ses-postdrug	2009-06-16T13:45:30	100
+sub-01	ses-followup	2009-06-17T13:45:30	110
+sub-02	ses-predrug	2009-06-22T12:22:05	105
+sub-02	ses-postdrug	2009-06-23T12:22:05	95
+sub-03	ses-postdrug	2009-06-30T14:06:40	115
+sub-03	ses-followup	2009-07-01T14:06:40	120
 ```
 
 ## Code
