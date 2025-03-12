@@ -429,6 +429,18 @@ values in the corresponding column is a transformation of values from other
 columns (for example a summary score based on a subset of items in a
 questionnaire).
 
+## Demographics file
+
+Template:
+
+```Text
+phenotype/
+    demographics.tsv
+    demographics.json
+```
+
+The demographics file is an OPTIONAL tabular phenotypic file in the `phenotype/` subdirectory meant to house common subject demographics. For example demographics like gender, race, and household income. A demographics file is RECOMMENDED to use when any participant has more than one session of any type. It does not replace the participants file, which is meant for data about each participant at first visit. It instead supplements the participants file by centralizing demographics across as many sessions as are available.
+
 ## Scans file
 
 Template:
