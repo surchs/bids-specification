@@ -362,11 +362,11 @@ If the dataset includes multiple sets of participant level measurements (for
 example responses from multiple questionnaires) they can be split into
 individual files separate from `participants.tsv`.
 
-Each of the measurement files MUST be kept in a `/phenotype` directory placed
+Each of the measurement files MUST be kept in a `phenotype/` directory placed
 at the root of the BIDS dataset and MUST end with the `.tsv` extension.
 Filenames SHOULD be chosen to reflect the contents of the file.
 For example, the "Adult ADHD Clinical Diagnostic Scale" could be saved in a file
-called `/phenotype/acds_adult.tsv`.
+called `phenotype/acds_adult.tsv`.
 
 The files can include an arbitrary set of columns, but one of them MUST be
 `participant_id` and the entries of that column MUST correspond to the subjects
@@ -390,6 +390,9 @@ and a guide for using macros can be found at
       "Derivative": "OPTIONAL",
    }
 ) }}
+
+For best tabular phenotypic data, follow
+[the tabular phenotypic data guidelines appendix](./appendices/phenotype.md).
 
 As an example, consider the contents of a file called
 `phenotype/acds_adult.json`:
@@ -439,7 +442,14 @@ phenotype/
     demographics.json
 ```
 
-The demographics file is an OPTIONAL tabular phenotypic file in the `phenotype/` subdirectory meant to house common subject demographics. For example demographics like gender, race, and household income. A demographics file is RECOMMENDED to use when any participant has more than one session of any type. It does not replace the participants file, which is meant for data about each participant at first visit. It instead supplements the participants file by centralizing demographics across as many sessions as are available.
+The demographics file is an OPTIONAL tabular phenotypic file in
+the `phenotype/` directory meant to house common subject demographics.
+For example demographics like gender, race, and household income.
+A demographics file is RECOMMENDED to use when any participant has
+more than one session of any type.
+It does not replace the participants file, which is meant for data about
+each participant at first visit. It instead supplements the participants file
+by centralizing demographics across as many sessions as are available.
 
 ## Scans file
 
@@ -515,13 +525,6 @@ sub-<label>/
     sub-<label>_sessions.tsv
 ```
 
-Template B (aggregated sessions file):
-
-```Text
-sessions.tsv
-sessions.json
-```
-
 Optional: Yes
 
 In case of multiple sessions there is an option of adding additional
@@ -547,6 +550,19 @@ ses-predrug	2009-06-15T13:45:30	120
 ses-postdrug	2009-06-16T13:45:30	100
 ses-followup	2009-06-17T13:45:30	110
 ```
+
+Template B (aggregated sessions file):
+
+```Text
+sessions.tsv
+sessions.json
+```
+
+Optional: Yes
+
+As RECOMMENDED in [the tabular phenotypic data guidelines appendix](./appendices/phenotype.md), a sessions file CAN be provided at the dataset root.
+If a root-level sessions file is provided, then it MUST begin with
+a `participant_id` column followed immediately after by a `session_id` column.
 
 `sessions.tsv` example:
 
