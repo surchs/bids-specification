@@ -448,7 +448,7 @@ For example demographics like gender, race, and household income.
 A demographics file is RECOMMENDED to use when any participant has
 more than one session of any type.
 It does not replace the participants file, which is meant for data about
-each participant at first visit. It instead supplements the participants file
+each participant at first session. It instead supplements the participants file
 by centralizing demographics across as many sessions as are available.
 
 ## Scans file
