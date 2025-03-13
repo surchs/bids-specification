@@ -6,51 +6,57 @@ This appendix is a collection of guidelines and examples utilizing these guideli
 
 The following guidelines are all **RECOMMENDED** when preparing tabular phenotypic data like the participants file, sessions file, demographics file, or phenotypic and assessment data. The language below uses REQUIRED, MUST, and others to imply these are the requirements for these **RECOMMENDED** guidelines.
 
-### 1. Aggregation of data across sessions
+### 1. Always pair tabular data with data dictionaries
 
-Phenotypic data MUST be prepared as one pair of a tabular file in tab-separated value (TSV) format and a corresponding data dictionary in  JavaScript Object Notation (JSON) format. Aggregation refers to the contents of the TSV file, collecting all participant data into one TSV per tabular phenotypic file.
+Tabular phenotypic data MUST be prepared as one pair of a tabular file in tab-separated value (TSV) format and a corresponding data dictionary in JavaScript Object Notation (JSON) format.
 
-### 2. Phenotypic and assessment data
+### 2. Aggregate data across sessions
+
+Aggregation refers to the contents of the TSV file. It is REQUIRED to collect all participant data into one TSV per tabular phenotypic file.
+
+### 3. Phenotypic and assessment data
 
 In phenotypic and assessment data each measurement tool has an independent aggregated data TSV file in which the user collects all subjects, sessions, and/or runs of data as one entry per row (with a row defined by the smallest unit of acquisition). In other words:
 
 1. Each row MUST start with `participant_id`.
 2. Each TSV file MUST contain a `session_id` column when multiple [sessions](../glossary.md#session-entities)[^1] are present in the data set regardless of whether those sessions are in the `phenotype/` data, `sub-<label>/` data, or a combination of the two.
-3. If more than one of the same measurement tool is acquired within the same `session_id`, a run column MUST be added.
+3. If more than one of the same measurement tool is acquired within the same `session_id`, a `run` column MUST be added.
 4. To encode the acquisition time for a measurement tool’s `session_id`, add the `session_id` to the sessions file and include the OPTIONAL `acq_time` column.
 
-| **Column name**  | **Required**                                                                              | **Description**                                                                                                                                                                                                                                                        |
-|------------------|-------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `participant_id` | always                                                                                    | MUST be the first column in the file.   Note that data for one participant may be represented  across multiple rows in case of multiple sessions or runs,  and therefore the entry in the `participant_id` column will be repeated.                                    |
-| `session _id`    | if sessions are defined anywhere in the dataset                                           | A `session_id` column MUST be added  to all tabular files in the phenotype directory  as soon as multiple sessions are present in the data set  regardless of whether those sessions are in the  `phenotype/` data, `sub-<label>/` data,  or a combination of the two. |
-| `run _id`        | the measurement or assessment described in  THIS tabular file was repeated in ANY session |                                                                                                                                                                                                                                                                        |
+To summarize this guideline as a table:
+
+| **Column name**  | **Requirement** | **Description** |
+| :--------------- | :-------------- | :-------------- |
+| `participant_id` | REQUIRED        | MUST be the first column in the file.   Note that data for one participant MAY be represented across multiple rows in case of multiple sessions or runs, and therefore the entry in the `participant_id` column will be repeated. |
+| `session _id`    | CONDITIONAL ; If sessions are defined in the dataset | A `session_id` column MUST be added to all tabular files in the phenotype directory as soon as multiple sessions are present in the data set regardless of whether those sessions are in the  `phenotype/` data, `sub-<label>/` data, or a combination of the two. |
+| `run`            | CONDITIONAL ; If there are multiple runs within any session | A chronological `run` number is used when a measurement tool or assessment described by a tabular file was repeated within a session. |
+| `acq_time`       | OPTIONAL        | If acquisition time is available, the `acq_time` column CAN be used to record the time of acquisition of each row in the tabular file. |
 
 Furthermore, if you have to add a `session_id` column to the tabular phenotypic data, you then MUST also introduce a session directory to the imaging data, even if only one imaging session has been created. This rule can be considered as "**if anyone uses sessions, everyone uses sessions**." And vice versa, if imaging data has session directories, all imaging data and tabular phenotypic data MUST have sessions.
 
-This produces a file in which same-participant entries can take up as many rows as needed according to the smallest unit of acquisition.
-The combination of values in the participant_id, session_id and run_id (if present) columns MUST be unique for the entire tabular file.
+This produces a file in which same-participant entries can take up as many rows as needed according to the smallest unit of acquisition. The combination of values in the `participant_id`, `session_id`, and `run` (if present) columns MUST be unique for the entire tabular file.
 
-### 3. Sessions file
+### 4. Sessions file
 
 If there is more than one session for any one participant, then it is REQUIRED to provide a sessions file at the dataset root. The sessions file MUST list all sessions for all subjects across imaging and tabular phenotypic data.
 
 When a sessions file is in use, you MUST NOT provide additional sessions files at the  participant-level which would otherwise use the inheritance principle. If a sessions file is provided, then it MUST begin with a `participant_id` column followed immediately by a `session_id` column. The data dictionary JSON’s `session_id` field MUST include `Levels` with the description of each `session_id`.
 
-### 4. Sessions age
+### 5. Sessions age
 
-It is RECOMMENDED to use the `age` column to record participant age at every session. This reduces data duplication across tabular data files. The `Units` of `age` do not have to be years so long as the units of the age are written in `sessions.json`.
+It is RECOMMENDED to use the `age` column to record participant age at every session. This reduces data duplication across tabular data files. The `Units` of `age` do not have to be years so long as the units of the age are written in `sessions.json`. Consider participant privacy or study objectives when selecting the `Units` of `age` or the accuracy of `age` data.
 
-### 5. Sessions `acq_time`
+### 6. Sessions `acq_time`
 
 Whenever possible, it is RECOMMENDED to also collect acquisition time for tabular phenotypic data and store the time of acquisition[^2] of each row inside a column named `acq_time` in the sessions file.
 
 When needed to preserve participant privacy, you SHOULD record relative acquisition times with respect to the earliest session. Relative session acquisition times MAY be listed as durations from the earliest session (baseline) in days, months, or years using the `acq_time` column.
 
-### 6. Demographics file
+### 7. Demographics file
 
 Some studies collect demographics into their own tabular phenotypic data file already. In these cases, it is RECOMMENDED to house this data in the `phenotype/` directory as a TSV called `demographics.tsv` and its corresponding data dictionary JSON called `demographics.json`.
 
-### 7. Summary
+### 8. Summary
 
 This appendix described the guidelines for the best tabular phenotypic data. A short summary table here describes when to use which files.
 
@@ -87,8 +93,7 @@ sub-01	value1	value2
 
 ### 1 participant with 2 sessions, where 1 session is only tabular phenotype and the other is only imaging
 
-With only one imaging and one phenotypic session each in this example you might want to merge both imaging and phenotypic data under one session. But it is more correct to have separate sessions for the imaging and phenotypic data, especially if the sessions were collected days, weeks, or months apart. You can denote both sessions and their acquisition time and in the sessions.tsv file and have `session_id` `Levels` noted in the `sessions.json` sidecar.
-Below are a CORRECT and an INCORRECT example of prepared data following these guidelines.
+With only one imaging and one phenotypic session each in this example you might want to merge both imaging and phenotypic data under one session. But it is more correct to have separate sessions for the imaging and phenotypic data, especially if the sessions were collected days, weeks, or months apart. You can denote both sessions and their acquisition time in the `sessions.tsv` file and have `session_id` `Levels` noted in the `sessions.json` sidecar. Below are a CORRECT and an INCORRECT example of prepared data following these guidelines.
 
 #### CORRECT
 
