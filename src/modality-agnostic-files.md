@@ -362,11 +362,11 @@ If the dataset includes multiple sets of participant level measurements (for
 example responses from multiple questionnaires) they can be split into
 individual files separate from `participants.tsv`.
 
-Each of the measurement files MUST be kept in a `/phenotype` directory placed
+Each of the measurement files MUST be kept in a `phenotype/` directory placed
 at the root of the BIDS dataset and MUST end with the `.tsv` extension.
 Filenames SHOULD be chosen to reflect the contents of the file.
 For example, the "Adult ADHD Clinical Diagnostic Scale" could be saved in a file
-called `/phenotype/acds_adult.tsv`.
+called `phenotype/acds_adult.tsv`.
 
 The files can include an arbitrary set of columns, but one of them MUST be
 `participant_id` and the entries of that column MUST correspond to the subjects
@@ -390,6 +390,9 @@ and a guide for using macros can be found at
       "Derivative": "OPTIONAL",
    }
 ) }}
+
+For best tabular phenotypic data, follow
+[the tabular phenotypic data guidelines appendix](./appendices/phenotype.md).
 
 As an example, consider the contents of a file called
 `phenotype/acds_adult.json`:
@@ -428,6 +431,25 @@ descriptions with a `Derivative` field that, when set to true, indicates that
 values in the corresponding column is a transformation of values from other
 columns (for example a summary score based on a subset of items in a
 questionnaire).
+
+## Demographics file
+
+Template:
+
+```Text
+phenotype/
+    demographics.tsv
+    demographics.json
+```
+
+The demographics file is an OPTIONAL tabular phenotypic file in
+the `phenotype/` directory meant to house common subject demographics.
+For example demographics like gender, race, and household income.
+A demographics file is RECOMMENDED to use when any participant has
+more than one session of any type.
+It does not replace the participants file, which is meant for data about
+each participant at first session. It instead supplements the participants file
+by centralizing demographics across as many sessions as are available.
 
 ## Scans file
 
@@ -496,7 +518,7 @@ meg/sub-control01_task-rest_split-02_meg.nii.gz	1877-06-15T12:15:27
 
 ## Sessions file
 
-Template:
+Template A (segregated sessions files):
 
 ```Text
 sub-<label>/
@@ -520,13 +542,40 @@ and a guide for using macros can be found at
 -->
 {{ MACROS___make_columns_table("modality_agnostic.Sessions") }}
 
-`_sessions.tsv` example:
+`sub-<label>/sub-<label>_sessions.tsv` example:
 
 ```tsv
 session_id	acq_time	systolic_blood_pressure
 ses-predrug	2009-06-15T13:45:30	120
 ses-postdrug	2009-06-16T13:45:30	100
 ses-followup	2009-06-17T13:45:30	110
+```
+
+Template B (aggregated sessions file):
+
+```Text
+sessions.tsv
+sessions.json
+```
+
+Optional: Yes
+
+As RECOMMENDED in [the tabular phenotypic data guidelines appendix](./appendices/phenotype.md),
+a sessions file CAN be provided at the dataset root.
+If a root-level sessions file is provided, then it MUST begin with
+a `participant_id` column followed immediately after by a `session_id` column.
+
+`sessions.tsv` example:
+
+```Text
+participant_id	session_id	acq_time	systolic_blood_pressure
+sub-01	ses-predrug	2009-06-15T13:45:30	120
+sub-01	ses-postdrug	2009-06-16T13:45:30	100
+sub-01	ses-followup	2009-06-17T13:45:30	110
+sub-02	ses-predrug	2009-06-22T12:22:05	105
+sub-02	ses-postdrug	2009-06-23T12:22:05	95
+sub-03	ses-postdrug	2009-06-30T14:06:40	115
+sub-03	ses-followup	2009-07-01T14:06:40	120
 ```
 
 ## Code
