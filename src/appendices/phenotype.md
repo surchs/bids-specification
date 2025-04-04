@@ -77,18 +77,18 @@ File tree
 
 ```text
 phenotype/
-    tool.json
-    tool.tsv
+    <measurement_tool_name>.json
+    <measurement_tool_name>.tsv
 sub-01/anat/
     sub-01_T1w.json
     sub-01_T1w.nii.gz
 ```
 
-Contents of `phenotype/tool.tsv`
+Contents of `phenotype/<measurement_tool_name>.tsv`
 
 ```text
-participant_id	measurement_1	measurement_2
-sub-01	value1	value2
+participant_id measurement_1 measurement_2
+sub-01 value1 value2
 ```
 
 ### 1 participant with 2 sessions, where 1 session is only tabular phenotype and the other is only imaging
@@ -101,18 +101,18 @@ File tree
 
 ```text
 phenotype/
-    tool.json
-    tool.tsv
+    <measurement_tool_name>.json
+    <measurement_tool_name>.tsv
 sub-01/ses-MRI/anat/
     sub-01_ses-MRI_T1w.json
     sub-01_ses-MRI_T1w.nii.gz
 ```
 
-Contents of `phenotype/tool.tsv`
+Contents of `phenotype/<measurement_tool_name>.tsv`
 
 ```text
-participant_id	session_id	measurement_1	measurement_2
-sub-01	ses-pheno	value1	value2
+participant_id session_id measurement_1 measurement_2
+sub-01 ses-pheno value1 value2
 ```
 
 #### INCORRECT
@@ -121,21 +121,21 @@ File tree
 
 ```text
 phenotype/
-    tool.json
-    tool.tsv
+    <measurement_tool_name>.json
+    <measurement_tool_name>.tsv
 sub-01/anat/
     sub-01_T1w.json
     sub-01_T1w.nii.gz
 ```
 
-Contents of `phenotype/tool.tsv`
+Contents of `phenotype/<measurement_tool_name>.tsv`
 
 ```text
-participant_id	measurement_1	measurement_2
-sub-01	value1	value2
+participant_id measurement_1 measurement_2
+sub-01 value1 value2
 ```
 
-A session directory **MUST** be present in the participant directory and the `session_id` column **MUST** be present in `tool.tsv` as well. Sessions must be used consistently for the combination of tabular and non-tabular phenotypic data.
+A session directory **MUST** be present in the participant directory and the `session_id` column **MUST** be present in `<measurement_tool_name>.tsv` as well. Sessions must be used consistently for the combination of tabular and non-tabular phenotypic data.
 
 ### 2 participants with a mix of tabular phenotypic data and imaging sessions
 
@@ -143,8 +143,8 @@ File tree
 
 ```text
 phenotype/
-    tool.json
-    tool.tsv
+    <measurement_tool_name>.json
+    <measurement_tool_name>.tsv
 sub-01/
     ses-MRI1/
         anat/
@@ -161,13 +161,13 @@ sub-02/
             sub-02_ses-MRI1_T1w.nii.gz
 ```
 
-Contents of `phenotype/tool.tsv`
+Contents of `phenotype/<measurement_tool_name>.tsv`
 
 ```text
-participant_id	session_id	measurement_1	measurement_2
-sub-01	ses-pheno1	value1	value2
-sub-02	ses-pheno1	value3	value4
-sub-02	ses-pheno2	value5	value6
+participant_id session_id measurement_1 measurement_2
+sub-01 ses-pheno1 value1 value2
+sub-02 ses-pheno1 value3 value4
+sub-02 ses-pheno2 value5 value6
 ```
 
 ### 3 participants with 3 different kinds of sessions among them
@@ -198,14 +198,14 @@ sub-03/
 Contents of `sessions.tsv`.
 
 ```text
-participant_id	session_id	acq_time	age
-sub-01	ses-baseline	2001-01-01T12:05:00	10
-sub-01	ses-followupMRI	2001-07-01T13:33:00	10
-sub-01	ses-interview	2002-01-01T11:21:00	11
-sub-02	ses-baseline	2001-04-01T11:01:00	9
-sub-02	ses-interview	2002-04-01T14:08:00	10
-sub-03	ses-baseline	2001-09-01T11:45:00	11
-sub-03	ses-followupMRI	2002-03-01T12:17:00	12
+participant_id session_id acq_time age
+sub-01 ses-baseline 2001-01-01T12:05:00 10
+sub-01 ses-followupMRI 2001-07-01T13:33:00 10
+sub-01 ses-interview 2002-01-01T11:21:00 11
+sub-02 ses-baseline 2001-04-01T11:01:00 9
+sub-02 ses-interview 2002-04-01T14:08:00 10
+sub-03 ses-baseline 2001-09-01T11:45:00 11
+sub-03 ses-followupMRI 2002-03-01T12:17:00 12
 ```
 
 Contents of `sessions.json`. Note how the `session_id` `Levels` are clearly described.
@@ -235,23 +235,23 @@ Contents of `sessions.json`. Note how the `session_id` `Levels` are clearly desc
 Contents of `participants.tsv`. Note how this file only contains age at the earliest session. This is intended for the expectation of 1 row per participant in the participant file.
 
 ```text
-participant_id	age	sex
-sub-01	10	M
-sub-02	9	F
-sub-03	11	F
+participant_id age sex
+sub-01 10 M
+sub-02 9 F
+sub-03 11 F
 ```
 
 Contents of `phenotype/demographics.tsv`. Measures or features that can change from session to session belong here especially.
 
 ```text
-participant_id	session_id	gender	race	household_income
-sub-01	ses-baseline	3	4	5
-sub-01	ses-followupMRI	3	4	5
-sub-01	ses-interview	4	4	6
-sub-02	ses-baseline	1	3	3
-sub-02	ses-interview	1	7	3
-sub-03	ses-baseline	2	10	4
-sub-03	ses-followupMRI	5	10	4
+participant_id session_id gender race household_income
+sub-01 ses-baseline 3 4 5
+sub-01 ses-followupMRI 3 4 5
+sub-01 ses-interview 4 4 6
+sub-02 ses-baseline 1 3 3
+sub-02 ses-interview 1 7 3
+sub-03 ses-baseline 2 10 4
+sub-03 ses-followupMRI 5 10 4
 ```
 
 For more complete examples, see the `pheno00*` bids-examples on GitHub.
