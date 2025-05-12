@@ -248,9 +248,9 @@ available").
 
 ```Text
 participant_id age sex handedness group
-sub-01 34 M right read
-sub-02 12 F right write
-sub-03 33 F n/a read
+sub-01         34  M   right      read
+sub-02         12  F   right      write
+sub-03         33  F   n/a        read
 ```
 
 It is RECOMMENDED to accompany each `participants.tsv` file with a sidecar
@@ -322,11 +322,11 @@ and a guide for using macros can be found at
 
 ```Text
 sample_id participant_id sample_type derived_from
-sample-01 sub-01 tissue n/a
-sample-02 sub-01 tissue sample-01
-sample-03 sub-01 tissue sample-01
-sample-04 sub-02 tissue n/a
-sample-05 sub-02 tissue n/a
+sample-01 sub-01         tissue      n/a
+sample-02 sub-01         tissue      sample-01
+sample-03 sub-01         tissue      sample-01
+sample-04 sub-02         tissue      n/a
+sample-05 sub-02         tissue      n/a
 ```
 
 It is RECOMMENDED to accompany each `samples.tsv` file with a sidecar
@@ -372,9 +372,52 @@ The files can include an arbitrary set of columns, but one of them MUST be
 `participant_id` and the entries of that column MUST correspond to the subjects
 in the BIDS dataset and `participants.tsv` file.
 
+!!! success "Guideline 2"
+
+    For [best tabular phenotypic data](./appendices/phenotype.md):
+    It is REQUIRED to aggregate all participant data into
+    one TSV per tabular phenotypic file.
+
+In phenotypic and assessment data each measurement tool has
+an independent aggregated data TSV file in which the user collects
+all subjects, sessions, and/or runs of data as one entry per row
+(with a row defined by the smallest unit of acquisition). In other words:
+
+1. Each row MUST start with `participant_id`.
+2. Each TSV file SHOULD contain a `session_id` column
+when multiple [sessions](../glossary.md#session-entities) are present
+in the data set regardless of whether those sessions are in
+the `phenotype/` data, `sub-<label>/` data, or a combination of the two.
+3. If more than one of the same measurement tool is acquired
+within the same `session_id`, a `run` column SHOULD be added.
+4. To encode the acquisition time for a measurement tool’s `session_id`,
+add the `session_id` to the sessions file
+and include the OPTIONAL `acq_time` column.
+
+!!! success "Guideline 3"
+
+    For [best tabular phenotypic data](./appendices/phenotype.md):
+ 
+    | **Column name**  | **Requirement** | **Description** |
+    | :--------------- | :-------------- | :-------------- |
+    | `participant_id` | REQUIRED        | MUST be the first column in the file. Note that data for one participant MAY be represented across multiple rows in case of multiple sessions or runs, and therefore the entry in the `participant_id` column will be repeated. |
+    | `session _id`    | CONDITIONAL ; If sessions are defined in the dataset | A `session_id` column MUST be added to all tabular files in the phenotype directory as soon as multiple sessions are present in the data set regardless of whether those sessions are in the  `phenotype/` data, `sub-<label>/` data, or a combination of the two. |
+    | `run`            | CONDITIONAL ; If there are multiple runs within any session | A chronological `run` number is used when a measurement tool or assessment described by a tabular file was repeated within a session. |
+    | `acq_time`       | OPTIONAL        | If acquisition time is available, the `acq_time` column CAN be used to record the time of acquisition of each row in the tabular file. |
+    
+    Furthermore, if you have to add a `session_id` column to the tabular phenotypic data, you then MUST also introduce a session directory to the imaging data, even if only one imaging session has been created. This rule can be considered as "**if anyone uses sessions, everyone uses sessions**." And vice versa, if imaging data has session directories, all imaging data and tabular phenotypic data MUST have sessions.
+
+    This produces a file in which same-participant entries can take up as many rows as needed according to the smallest unit of acquisition. The combination of values in the `participant_id`, `session_id`, and `run` (if present) columns MUST be unique for the entire tabular file.
+
 As with all other tabular data, the additional phenotypic information files
 MAY be accompanied by a JSON file describing the columns in detail
 (see [Tabular files](common-principles.md#tabular-files)).
+
+!!! success "Guideline 1"
+
+    For [best tabular phenotypic data](./appendices/phenotype.md):
+    Each tabular phenotypic data TSV file MUST be accompanied by
+    a corresponding data dictionary JSON file.
 
 In addition to the column descriptions, the JSON file MAY contain the following fields:
 
@@ -390,9 +433,6 @@ and a guide for using macros can be found at
       "Derivative": "OPTIONAL",
    }
 ) }}
-
-For best tabular phenotypic data, follow
-[the tabular phenotypic data guidelines appendix](./appendices/phenotype.md).
 
 As an example, consider the contents of a file called
 `phenotype/acds_adult.json`:
@@ -450,6 +490,13 @@ more than one session of any type.
 It does not replace the participants file, which is meant for data about
 each participant at first session. It instead supplements the participants file
 by centralizing demographics across as many sessions as are available.
+
+!!! success "Guideline 4"
+
+    For [best tabular phenotypic data](./appendices/phenotype.md):
+    Some studies collect demographics into their own
+    tabular phenotypic data file already. In these cases, it is RECOMMENDED
+    to house this data also in the demographics file.
 
 ## Scans file
 
@@ -509,11 +556,11 @@ All such included additional fields SHOULD be documented in an accompanying
 Example `_scans.tsv`:
 
 ```Text
-filename	acq_time
-func/sub-control01_task-nback_bold.nii.gz	1877-06-15T13:45:30
-func/sub-control01_task-motor_bold.nii.gz	1877-06-15T13:55:33
-meg/sub-control01_task-rest_split-01_meg.nii.gz	1877-06-15T12:15:27
-meg/sub-control01_task-rest_split-02_meg.nii.gz	1877-06-15T12:15:27
+filename                                        acq_time
+func/sub-control01_task-nback_bold.nii.gz       1877-06-15T13:45:30
+func/sub-control01_task-motor_bold.nii.gz       1877-06-15T13:55:33
+meg/sub-control01_task-rest_split-01_meg.nii.gz 1877-06-15T12:15:27
+meg/sub-control01_task-rest_split-02_meg.nii.gz 1877-06-15T12:15:27
 ```
 
 ## Sessions file
@@ -545,10 +592,10 @@ and a guide for using macros can be found at
 `sub-<label>/sub-<label>_sessions.tsv` example:
 
 ```Text
-session_id	acq_time	systolic_blood_pressure
-ses-predrug	2009-06-15T13:45:30	120
-ses-postdrug	2009-06-16T13:45:30	100
-ses-followup	2009-06-17T13:45:30	110
+session_id   acq_time            systolic_blood_pressure
+ses-predrug  2009-06-15T13:45:30 120
+ses-postdrug 2009-06-16T13:45:30 100
+ses-followup 2009-06-17T13:45:30 110
 ```
 
 Template B (aggregated sessions file):
@@ -560,23 +607,60 @@ sessions.json
 
 Optional: Yes
 
-As RECOMMENDED in [the tabular phenotypic data guidelines appendix](./appendices/phenotype.md),
-a sessions file CAN be provided at the dataset root.
+A sessions file CAN be provided at the dataset root.
 If a root-level sessions file is provided, then it MUST begin with
 a `participant_id` column followed immediately after by a `session_id` column.
 
 `sessions.tsv` example:
 
 ```Text
-participant_id	session_id	acq_time	systolic_blood_pressure
-sub-01	ses-predrug	2009-06-15T13:45:30	120
-sub-01	ses-postdrug	2009-06-16T13:45:30	100
-sub-01	ses-followup	2009-06-17T13:45:30	110
-sub-02	ses-predrug	2009-06-22T12:22:05	105
-sub-02	ses-postdrug	2009-06-23T12:22:05	95
-sub-03	ses-postdrug	2009-06-30T14:06:40	115
-sub-03	ses-followup	2009-07-01T14:06:40	120
+participant_id session_id   acq_time            systolic_blood_pressure
+sub-01         ses-predrug  2009-06-15T13:45:30 120
+sub-01         ses-postdrug 2009-06-16T13:45:30 100
+sub-01         ses-followup 2009-06-17T13:45:30 110
+sub-02         ses-predrug  2009-06-22T12:22:05 105
+sub-02         ses-postdrug 2009-06-23T12:22:05 95
+sub-03         ses-postdrug 2009-06-30T14:06:40 115
+sub-03         ses-followup 2009-07-01T14:06:40 120
 ```
+
+!!! success "Guideline 5"
+
+    For [best tabular phenotypic data](./appendices/phenotype.md):
+    If there is more than one session for any one participant, then it is
+    REQUIRED to provide a sessions file at the dataset root.
+    The sessions file MUST list all sessions for all subjects
+    across imaging and tabular phenotypic data.
+
+    When a sessions file is in use, you MUST NOT provide additional sessions
+    files at the  participant-level which would otherwise use
+    the inheritance principle. If a sessions file is provided, then
+    it MUST begin with a `participant_id` column followed immediately by
+    a `session_id` column. The data dictionary JSON file's `session_id` field
+    MUST include `Levels` with the description of each `session_id`.
+
+!!! success "Guideline 6"
+
+    For [best tabular phenotypic data](./appendices/phenotype.md):
+    It is RECOMMENDED to use the `age` column in `sessions.tsv` to record
+    participant age at every session. This reduces data duplication across
+    tabular data files. The `Units` of `age` do not have to be years so long as
+    the units of the age are written in `sessions.json`.
+    Consider participant privacy or study objectives when selecting
+    the `Units` of `age` or the accuracy of `age` data.
+
+!!! success "Guideline 7"
+
+    For [best tabular phenotypic data](./appendices/phenotype.md):
+    Whenever possible, it is RECOMMENDED to also collect acquisition time
+    for tabular phenotypic data and store the time of acquisition of each row
+    inside a column named `acq_time` in the sessions file.
+
+    When it is needed to preserve participant privacy, you SHOULD record
+    relative acquisition times with respect to the earliest session.
+    Relative session acquisition times MAY be listed as durations from
+    the earliest session (baseline) in days, months, or years
+    using the `acq_time` column.
 
 ## Code
 
