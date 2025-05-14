@@ -1,6 +1,6 @@
 # Tabular phenotypic data guidelines
 
-This appendix is a collection of guidelines and examples utilizing these guidelines for creating well-organized aggregated tabular phenotypic data.
+This appendix is a collection of guidelines and examples for creating well-organized aggregated tabular phenotypic data.
 
 ## Guidelines
 
@@ -22,7 +22,7 @@ in JavaScript Object Notation (JSON) format.
 Aggregation refers to the contents of the TSV file. It is REQUIRED
 to collect all participant data into one TSV per tabular phenotypic file.
 
-### 3. Phenotypic and assessment data
+### 3. Ensure minimal annotation for phenotypic and assessment data
 
 In phenotypic and assessment data each measurement tool has an independent
 aggregated data TSV file in which the user collects all subjects, sessions,
@@ -61,14 +61,14 @@ as needed according to the smallest unit of acquisition.
 The combination of values in the `participant_id`, `session_id`, and `run` (if present)
 columns MUST be unique for the entire tabular file.
 
-### 4. Demographics file
+### 4. Use demographics.tsv for common variables about participants
 
 Some studies collect demographics into their own tabular phenotypic data file already.
 In these cases, it is RECOMMENDED to house this data in the `phenotype/` directory
 as a TSV called `demographics.tsv` and its corresponding data dictionary JSON
 called `demographics.json`.
 
-### 5. Sessions file
+### 5. Use the sessions.tsv file at the root level
 
 If there is more than one session for any one participant, then
 it is REQUIRED to provide a sessions file at the dataset root.
@@ -81,7 +81,7 @@ If a sessions file is provided, then it MUST begin with a `participant_id` colum
 followed immediately by a `session_id` column. The data dictionary JSON file’s
 `session_id` field MUST include `Levels` with the description of each `session_id`.
 
-### 6. Sessions age
+### 6. Store longitudinal age in `demographics.tsv`
 
 It is RECOMMENDED to use the `age` column to record participant age at every session.
 This reduces data duplication across tabular data files. The `Units` of `age`
@@ -89,7 +89,7 @@ do not have to be years so long as the units of the age are written in `sessions
 Consider participant privacy or study objectives when selecting
 the `Units` of `age` or the accuracy of `age` data.
 
-### 7. Sessions `acq_time`
+### 7. Record acquisition time of sessions with `acq_time`
 
 Whenever possible, it is RECOMMENDED to also collect acquisition time for
 tabular phenotypic data and store the time of acquisition[^2] of each row
