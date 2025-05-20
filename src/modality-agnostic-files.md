@@ -362,7 +362,7 @@ If the dataset includes multiple sets of participant level measurements (for
 example responses from multiple questionnaires) they can be split into
 individual files separate from `participants.tsv`.
 
-Each of the measurement files MUST be kept in a `phenotype/` directory placed
+Each of the measurement files MUST be kept in a `/phenotype` directory placed
 at the root of the BIDS dataset and MUST end with the `.tsv` extension.
 Filenames SHOULD be chosen to reflect the contents of the file.
 For example, the "Adult ADHD Clinical Diagnostic Scale" could be saved in a file
@@ -464,6 +464,14 @@ Please note that in this example `MeasurementToolMetadata` includes information
 about the questionnaire and `adhd_b` and `adhd_c_dx` correspond to individual
 columns.
 
+!!! success "Guideline 4"
+
+    For [best tabular phenotypic data](./appendices/phenotype.md):
+    Whenever possible, it is RECOMMENDED to add `MeasurementToolMetadata` to
+    each `phenotype/<measurement_tool_name>.json` data dictionary.
+    This improves reusability and provides clarity about the measurement tool.
+
+
 In addition to the keys available to describe columns in all tabular files
 (`LongName`, `Description`, `Levels`, `Units`, and `TermURL`) the
 `participants.json` file as well as phenotypic files can also include column
@@ -484,19 +492,30 @@ phenotype/
 
 The demographics file is an OPTIONAL tabular phenotypic file in
 the `phenotype/` directory meant to house common subject demographics.
-For example demographics like gender, race, and household income.
+For example demographics like age, gender, race, and household income.
 A demographics file is RECOMMENDED to use when any participant has
 more than one session of any type.
-It does not replace the participants file, which is meant for data about
-each participant at first session. It instead supplements the participants file
-by centralizing demographics across as many sessions as are available.
+It does not replace the participants file, which is meant for unchanging data about
+each participant in the data set. It is instead a superset of the participants file,
+centralizing demographics across as many sessions as are available.
 
-!!! success "Guideline 4"
+!!! success "Guideline 5"
 
     For [best tabular phenotypic data](./appendices/phenotype.md):
     Some studies collect demographics into their own
     tabular phenotypic data file already. In these cases, it is RECOMMENDED
     to house this data also in the demographics file.
+
+!!! success "Guideline 6"
+
+    For [best tabular phenotypic data](./appendices/phenotype.md):
+    It is RECOMMENDED to use the `age` column to record participant age
+    at every session in longitudinal or multi-session data sets.
+    This reduces data duplication across tabular data files. The `Units` of `age`
+    do not have to be years so long as the units of the age
+    are written in `phenotype/demographics.json`.
+    Consider participant privacy or study objectives when selecting
+    the `Units` of `age` or the accuracy of `age` data.
 
 ## Scans file
 
@@ -568,6 +587,7 @@ meg/sub-control01_task-rest_split-02_meg.nii.gz 1877-06-15T12:15:27
 Template A (segregated sessions files):
 
 ```Text
+[sessions.json]
 sub-<label>/
     sub-<label>_sessions.tsv
 ```
@@ -575,7 +595,7 @@ sub-<label>/
 Optional: Yes
 
 In case of multiple sessions there is an option of adding additional
-`sessions.tsv` files describing variables changing between sessions.
+`sessions.tsv` files describing each session and variables changing between sessions.
 In such case one file per participant SHOULD be added.
 These files MUST include a `session_id` column and describe each session by one and only one row.
 Column names in `sessions.tsv` files MUST be different from group level participant key column names in the
@@ -607,9 +627,13 @@ sessions.json
 
 Optional: Yes
 
-A sessions file CAN be provided at the dataset root.
+An aggregated sessions file CAN be provided at the dataset root.
 If a root-level sessions file is provided, then it MUST begin with
 a `participant_id` column followed immediately after by a `session_id` column.
+The intent of this root-level sessions file is to describe the sessions
+in a data set and non-demographic variables changing between sessions.
+Participant's demographic variables should be added to
+a [demographics file](#demographics-file), as described above.
 
 `sessions.tsv` example:
 
@@ -624,7 +648,7 @@ sub-03         ses-postdrug 2009-06-30T14:06:40 115
 sub-03         ses-followup 2009-07-01T14:06:40 120
 ```
 
-!!! success "Guideline 5"
+!!! success "Guideline 7"
 
     For [best tabular phenotypic data](./appendices/phenotype.md):
     If there is more than one session for any one participant, then it is
@@ -639,17 +663,7 @@ sub-03         ses-followup 2009-07-01T14:06:40 120
     a `session_id` column. The data dictionary JSON file's `session_id` field
     MUST include `Levels` with the description of each `session_id`.
 
-!!! success "Guideline 6"
-
-    For [best tabular phenotypic data](./appendices/phenotype.md):
-    It is RECOMMENDED to use the `age` column in `sessions.tsv` to record
-    participant age at every session. This reduces data duplication across
-    tabular data files. The `Units` of `age` do not have to be years so long as
-    the units of the age are written in `sessions.json`.
-    Consider participant privacy or study objectives when selecting
-    the `Units` of `age` or the accuracy of `age` data.
-
-!!! success "Guideline 7"
+!!! success "Guideline 8"
 
     For [best tabular phenotypic data](./appendices/phenotype.md):
     Whenever possible, it is RECOMMENDED to also collect acquisition time

@@ -61,14 +61,30 @@ as needed according to the smallest unit of acquisition.
 The combination of values in the `participant_id`, `session_id`, and `run` (if present)
 columns MUST be unique for the entire tabular file.
 
-### 4. Use demographics.tsv for common variables about participants
+### 4. Add `MeasurementToolMetadata` to each tabular phenotypic measurment tool
+
+Whenever possible, it is RECOMMENDED to add `MeasurementToolMetadata` to
+each `phenotype/<measurement_tool_name>.json` data dictionary.
+This improves reusability and provides clarity about the measurement tool.
+
+### 5. Use the demographics file for common variables about participants
 
 Some studies collect demographics into their own tabular phenotypic data file already.
 In these cases, it is RECOMMENDED to house this data in the `phenotype/` directory
 as a TSV called `demographics.tsv` and its corresponding data dictionary JSON
 called `demographics.json`.
 
-### 5. Use the sessions.tsv file at the root level
+### 6. Store longitudinal age in the demographics file
+
+It is RECOMMENDED to use the `age` column to record participant age
+at every session in longitudinal or multi-session data sets.
+This reduces data duplication across tabular data files. The `Units` of `age`
+do not have to be years so long as the units of the age
+are written in `phenotype/demographics.json`.
+Consider participant privacy or study objectives when selecting
+the `Units` of `age` or the accuracy of `age` data.
+
+### 7. Use the sessions file at the root level
 
 If there is more than one session for any one participant, then
 it is REQUIRED to provide a sessions file at the dataset root.
@@ -81,15 +97,7 @@ If a sessions file is provided, then it MUST begin with a `participant_id` colum
 followed immediately by a `session_id` column. The data dictionary JSON file’s
 `session_id` field MUST include `Levels` with the description of each `session_id`.
 
-### 6. Store longitudinal age in `demographics.tsv`
-
-It is RECOMMENDED to use the `age` column to record participant age at every session.
-This reduces data duplication across tabular data files. The `Units` of `age`
-do not have to be years so long as the units of the age are written in `sessions.json`.
-Consider participant privacy or study objectives when selecting
-the `Units` of `age` or the accuracy of `age` data.
-
-### 7. Record acquisition time of sessions with `acq_time`
+### 8. Record acquisition time of sessions with `acq_time`
 
 Whenever possible, it is RECOMMENDED to also collect acquisition time for
 tabular phenotypic data and store the time of acquisition[^2] of each row
@@ -253,14 +261,14 @@ sub-03/
 Contents of `sessions.tsv`.
 
 ```Text
-participant_id session_id      acq_time            age
-sub-01         ses-baseline    2001-01-01T12:05:00 10
-sub-01         ses-followupMRI 2001-07-01T13:33:00 10
-sub-01         ses-interview   2002-01-01T11:21:00 11
-sub-02         ses-baseline    2001-04-01T11:01:00 9
-sub-02         ses-interview   2002-04-01T14:08:00 10
-sub-03         ses-baseline    2001-09-01T11:45:00 11
-sub-03         ses-followupMRI 2002-03-01T12:17:00 12
+participant_id session_id      acq_time
+sub-01         ses-baseline    2001-01-01T12:05:00
+sub-01         ses-followupMRI 2001-07-01T13:33:00
+sub-01         ses-interview   2002-01-01T11:21:00
+sub-02         ses-baseline    2001-04-01T11:01:00
+sub-02         ses-interview   2002-04-01T14:08:00
+sub-03         ses-baseline    2001-09-01T11:45:00
+sub-03         ses-followupMRI 2002-03-01T12:17:00
 ```
 
 Contents of `sessions.json`. Note how the `session_id` `Levels` are clearly described.
@@ -280,37 +288,31 @@ Contents of `sessions.json`. Note how the `session_id` `Levels` are clearly desc
     },
     "acq_time": {
         "Description": "When the data acquisition started"
-    },
-    "age": {
-        "Description": "Age of the participant at the session",
-        "Units": "years"
     }
 }
 ```
 
-Contents of `participants.tsv`. Note how this file only contains age at
-the earliest session. This is intended for the expectation of 1 row per participant
-in the participant file.
+Contents of `participants.tsv`.
 
 ```Text
-participant_id age sex
-sub-01         10  M
-sub-02         9   F
-sub-03         11  F
+participant_id sex
+sub-01         M
+sub-02         F
+sub-03         F
 ```
 
 Contents of `phenotype/demographics.tsv`. Measures or features that can change
 from session to session belong here especially.
 
 ```Text
-participant_id session_id      gender race household_income
-sub-01         ses-baseline    3      4    5
-sub-01         ses-followupMRI 3      4    5
-sub-01         ses-interview   4      4    6
-sub-02         ses-baseline    1      3    3
-sub-02         ses-interview   1      7    3
-sub-03         ses-baseline    2      10   4
-sub-03         ses-followupMRI 5      10   4
+participant_id session_id      age gender race household_income
+sub-01         ses-baseline    10  3      4    5
+sub-01         ses-followupMRI 10  3      4    5
+sub-01         ses-interview   11  4      4    6
+sub-02         ses-baseline    9   1      3    3
+sub-02         ses-interview   10  1      7    3
+sub-03         ses-baseline    11  2      10   4
+sub-03         ses-followupMRI 12  5      10   4
 ```
 
 For more complete examples, see the `pheno00*` bids-examples on GitHub.
@@ -323,4 +325,4 @@ those can still be grouped in one session. Refer to the
 [definition of session](../glossary.md#session-entities) for more details.
 
 [^2]: Datetime format and the anonymization procedure are
-described in [Units](../02-common-principles.md#units).
+described in [Units](../common-principles.md#units).
