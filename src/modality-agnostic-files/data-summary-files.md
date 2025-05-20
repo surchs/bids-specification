@@ -41,7 +41,7 @@ sub-03         33  F   n/a        read
 
 It is RECOMMENDED to accompany each `participants.tsv` file with a sidecar
 `participants.json` file to describe the TSV column names and properties of their values (see also
-the [section on tabular files](common-principles.md#tabular-files)).
+the [section on tabular files](../common-principles.md#tabular-files)).
 Such sidecar files are needed to interpret the data, especially so when
 optional columns are defined beyond `age`, `sex`, `handedness`, `species`, `strain`,
 and `strain_rrid`, such as `group` in this example, or when a different
@@ -117,7 +117,7 @@ sample-05 sub-02         tissue      n/a
 
 It is RECOMMENDED to accompany each `samples.tsv` file with a sidecar
 `samples.json` file to describe the TSV column names and properties of their values
-(see also the [section on tabular files](common-principles.md#tabular-files)).
+(see also the [section on tabular files](../common-principles.md#tabular-files)).
 
 `samples.json` example:
 
@@ -160,7 +160,7 @@ in the BIDS dataset and `participants.tsv` file.
 
 !!! success "Guideline 2"
 
-    For [best tabular phenotypic data](./appendices/phenotype.md):
+    For [best tabular phenotypic data](../appendices/phenotype.md):
     It is REQUIRED to aggregate all participant data into
     one TSV per tabular phenotypic file.
 
@@ -182,7 +182,7 @@ and include the OPTIONAL `acq_time` column.
 
 !!! success "Guideline 3"
 
-    For [best tabular phenotypic data](./appendices/phenotype.md):
+    For [best tabular phenotypic data](../appendices/phenotype.md):
  
     | **Column name**  | **Requirement** | **Description** |
     | :--------------- | :-------------- | :-------------- |
@@ -197,11 +197,11 @@ and include the OPTIONAL `acq_time` column.
 
 As with all other tabular data, the additional phenotypic information files
 MAY be accompanied by a JSON file describing the columns in detail
-(see [Tabular files](common-principles.md#tabular-files)).
+(see [Tabular files](../common-principles.md#tabular-files)).
 
 !!! success "Guideline 1"
 
-    For [best tabular phenotypic data](./appendices/phenotype.md):
+    For [best tabular phenotypic data](../appendices/phenotype.md):
     Each tabular phenotypic data TSV file MUST be accompanied by
     a corresponding data dictionary JSON file.
 
@@ -252,7 +252,7 @@ columns.
 
 !!! success "Guideline 4"
 
-    For [best tabular phenotypic data](./appendices/phenotype.md):
+    For [best tabular phenotypic data](../appendices/phenotype.md):
     Whenever possible, it is RECOMMENDED to add `MeasurementToolMetadata` to
     each `phenotype/<measurement_tool_name>.json` data dictionary.
     This improves reusability and provides clarity about the measurement tool.
@@ -287,14 +287,14 @@ centralizing demographics across as many sessions as are available.
 
 !!! success "Guideline 5"
 
-    For [best tabular phenotypic data](./appendices/phenotype.md):
+    For [best tabular phenotypic data](../appendices/phenotype.md):
     Some studies collect demographics into their own
     tabular phenotypic data file already. In these cases, it is RECOMMENDED
     to house this data also in the demographics file.
 
 !!! success "Guideline 6"
 
-    For [best tabular phenotypic data](./appendices/phenotype.md):
+    For [best tabular phenotypic data](../appendices/phenotype.md):
     It is RECOMMENDED to use the `age` column to record participant age
     at every session in longitudinal or multi-session data sets.
     This reduces data duplication across tabular data files. The `Units` of `age`
@@ -333,12 +333,12 @@ and not the individual files in that directory.
 Some neural recordings consist of multiple parts,
 that span several files,
 but that share the same extension.
-For example in [entity-linked file collections](./common-principles.md#entity-linked-file-collections),
+For example in [entity-linked file collections](../common-principles.md#entity-linked-file-collections),
 commonly used for qMRI,
 where recordings may be linked through entities such as `echo` and `part`
 (using `.nii` or `.nii.gz` extensions).
 For another example consider the case of large files in `.fif` format that are linked through the `split` entity
-(see [Split files](./appendices/meg-file-formats.md#split-files)).
+(see [Split files](../appendices/meg-file-formats.md#split-files)).
 Such recordings MUST be documented with one row per file
 (unlike the case of multi-file file formats described above).
 
@@ -356,7 +356,7 @@ For example vigilance questionnaire score administered after a resting
 state scan.
 All such included additional fields SHOULD be documented in an accompanying
 `_scans.json` file that describes these fields in detail
-(see [Tabular files](common-principles.md#tabular-files)).
+(see [Tabular files](../common-principles.md#tabular-files)).
 
 Example `_scans.tsv`:
 
@@ -385,7 +385,7 @@ In case of multiple sessions there is an option of adding additional
 In such case one file per participant SHOULD be added.
 These files MUST include a `session_id` column and describe each session by one and only one row.
 Column names in `sessions.tsv` files MUST be different from group level participant key column names in the
-[`participants.tsv` file](./modality-agnostic-files.md#participants-file).
+[`participants.tsv` file](#participants-file).
 
 <!-- This block generates a columns table.
 The definitions of these fields can be found in
@@ -436,7 +436,7 @@ sub-03         ses-followup 2009-07-01T14:06:40 120
 
 !!! success "Guideline 7"
 
-    For [best tabular phenotypic data](./appendices/phenotype.md):
+    For [best tabular phenotypic data](../appendices/phenotype.md):
     If there is more than one session for any one participant, then it is
     REQUIRED to provide a sessions file at the dataset root.
     The sessions file MUST list all sessions for all subjects
@@ -451,7 +451,7 @@ sub-03         ses-followup 2009-07-01T14:06:40 120
 
 !!! success "Guideline 8"
 
-    For [best tabular phenotypic data](./appendices/phenotype.md):
+    For [best tabular phenotypic data](../appendices/phenotype.md):
     Whenever possible, it is RECOMMENDED to also collect acquisition time
     for tabular phenotypic data and store the time of acquisition of each row
     inside a column named `acq_time` in the sessions file.
