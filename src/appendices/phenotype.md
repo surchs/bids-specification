@@ -92,7 +92,7 @@ The sessions file MUST list all sessions for all subjects across
 imaging and tabular phenotypic data.
 
 When a sessions file is in use, you MUST NOT provide additional sessions files
-at the  participant-level which would otherwise use the inheritance principle.
+at the participant-level which would otherwise use the inheritance principle.
 If a sessions file is provided, then it MUST begin with a `participant_id` column
 followed immediately by a `session_id` column. The data dictionary JSON file’s
 `session_id` field MUST include `Levels` with the description of each `session_id`.
@@ -102,6 +102,8 @@ followed immediately by a `session_id` column. The data dictionary JSON file’s
 Whenever possible, it is RECOMMENDED to also collect acquisition time for
 tabular phenotypic data and store the time of acquisition[^2] of each row
 inside a column named `acq_time` in the sessions file.
+This is consistent with how acquisition time is recorded for MRI data
+and other time-sensitive measurements (e.g. systolic blood pressure).
 
 When needed to preserve participant privacy, you SHOULD record
 relative acquisition times with respect to the earliest session.
@@ -315,7 +317,8 @@ sub-03         ses-baseline    11  2      10   4
 sub-03         ses-followupMRI 12  5      10   4
 ```
 
-For more complete examples, see the `pheno00*` bids-examples on GitHub.
+For more complete examples, see the `pheno00*`
+[bids-examples on GitHub](https://github.com/bids-standard/bids-examples/).
 
 [^1]: A session is any logical grouping of imaging and behavioral data consistent
 across participants. Session can (but doesn't have to) be synonymous to a visit

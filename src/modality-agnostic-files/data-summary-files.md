@@ -443,7 +443,7 @@ sub-03         ses-followup 2009-07-01T14:06:40 120
     across imaging and tabular phenotypic data.
 
     When a sessions file is in use, you MUST NOT provide additional sessions
-    files at the  participant-level which would otherwise use
+    files at the participant-level which would otherwise use
     the inheritance principle. If a sessions file is provided, then
     it MUST begin with a `participant_id` column followed immediately by
     a `session_id` column. The data dictionary JSON file's `session_id` field
@@ -455,6 +455,8 @@ sub-03         ses-followup 2009-07-01T14:06:40 120
     Whenever possible, it is RECOMMENDED to also collect acquisition time
     for tabular phenotypic data and store the time of acquisition of each row
     inside a column named `acq_time` in the sessions file.
+    This is consistent with how acquisition time is recorded for MRI data
+    and other time-sensitive measurements (e.g. systolic blood pressure).
 
     When it is needed to preserve participant privacy, you SHOULD record
     relative acquisition times with respect to the earliest session.
