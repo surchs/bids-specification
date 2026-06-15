@@ -4,8 +4,8 @@ Template:
 
 ```Text
 phenotype/
-    <measurement_tool_name>.tsv
-    <measurement_tool_name>.json
+    [tool-]<MeasurementToolName>[_phenotype].tsv
+    [tool-]<MeasurementToolName>[_phenotype].json
 ```
 
 Optional: Yes
@@ -50,19 +50,35 @@ and a guide for using macros can be found at
 -->
 {{ MACROS___make_metadata_table(
    {
+      "IndexColumns": "OPTIONAL",
       "MeasurementToolMetadata": "OPTIONAL",
       "Derivative": "OPTIONAL",
    }
 ) }}
 
+The `"IndexColumns"` field defines a "joint index".
+This means there MAY be more than one row per `participant_id`,
+but there MUST be no more than one unique combination of
+the joint indices defined in the list among all rows.
+
 As an example, consider the contents of a file called
-`phenotype/acds_adult.json`:
+`phenotype/tool-ACDSAdult_phenotype.json` in a multi-session dataset:
 
 ```JSON
 {
+  "IndexColumns": [
+    "participant_id",
+    "session_id"
+  ],
   "MeasurementToolMetadata": {
     "Description": "Adult ADHD Clinical Diagnostic Scale V1.2",
     "TermURL": "https://www.cognitiveatlas.org/task/id/trm_5586ff878155d"
+  },
+  "participant_id": {
+    "Description": "BIDS participant identifier, of the format sub-<label>"
+  },
+  "session_id": {
+    "Description": "BIDS session identifier, of the format ses-<label>"
   },
   "adhd_b": {
     "Description": "B. CHILDHOOD ONSET OF ADHD (PRIOR TO AGE 7)",
@@ -81,15 +97,19 @@ As an example, consider the contents of a file called
 }
 ```
 
-Please note that in this example `MeasurementToolMetadata` includes information
-about the questionnaire and `adhd_b` and `adhd_c_dx` correspond to individual
-columns.
+Please note in this example
+there MUST be no more than one unique combination of
+the joint indices of `participant_id` and `session_id`.
+Also in this example `MeasurementToolMetadata`
+includes information about the questionnaire,
+and `participant_id`, `session_id`, `adhd_b`, and `adhd_c_dx`
+correspond to individual columns in the TSV data.
 
 In addition to the keys available to describe columns in all tabular files
 (`LongName`, `Description`, `Levels`, `Units`, and `TermURL`) the
 `participants.json` file as well as phenotypic files can also include column
 descriptions with a `Derivative` field that, when set to true, indicates that
-values in the corresponding column is a transformation of values from other
+values in the corresponding column are a transformation of values from other
 columns (for example a summary score based on a subset of items in a
 questionnaire).
 
