@@ -84,13 +84,21 @@ to date of birth.
 }
 ```
 
-It is RECOMMENDED to use the `age` column to record participant age
-at every session in longitudinal or multi-session data sets.
+It is RECOMMENDED to use the `age` column to record participant age.
 This reduces data duplication across tabular data files. The `Units` of `age`
 do not have to be years so long as the units of the age
 are written in `participants.json`.
 Consider participant privacy or study objectives when selecting
 the `Units` of `age` or the accuracy of `age` data.
+
+There are two ways to record `age` in longitudinal or multi-session data sets.
+Choose what makes the most sense for your dataset's expected users.
+The first method is to aggregate into a single file in the phenotypic and assessment data folder
+using the `"IndexColumns"` field in the sidecar JSON.
+Read the [tabular phenotypic data guidelines appendix](../appendices/phenotype.md)
+for further explanation of the demographics file.
+The second method is to segregate `age` into participant's session files.
+Read the [sessions file section](#sessions-file) below for further explanation.
 
 ## Samples file
 

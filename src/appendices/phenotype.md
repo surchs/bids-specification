@@ -176,10 +176,10 @@ Contents of `phenotype/tool-Measurements_phenotype.json`
         "session_id"
     ],
     "participant_id": {
-        "Description": "BIDS participant identifier"
+        "Description": "Participant identifier"
     },
     "session_id": {
-        "Description": "BIDS session identifier",
+        "Description": "Session identifier",
         "Levels": {
             "ses-pheno": "Phenotype-only session",
             "ses-MRI": "MRI-only session"
@@ -359,10 +359,10 @@ and how `"IndexColumns"` is present.
         "session_id"
     ],
     "participant_id": {
-        "Description": "BIDS participant identifier"
+        "Description": "Participant identifier"
     },
     "session_id": {
-        "Description": "BIDS session identifier",
+        "Description": "Session identifier",
         "Levels": {
             "ses-baseline": "Baseline visit for MRI and assessments",
             "ses-followupMRI": "6-months after baseline MRI follow-up",
