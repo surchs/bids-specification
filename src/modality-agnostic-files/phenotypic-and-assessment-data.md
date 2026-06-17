@@ -100,7 +100,7 @@ As an example, consider the contents of a file called
 Please note in this example
 there MUST be no more than one unique combination of
 the joint indices of `participant_id` and `session_id`.
-Also in this example `MeasurementToolMetadata`
+Also in the above example, `MeasurementToolMetadata`
 includes information about the questionnaire,
 and `participant_id`, `session_id`, `adhd_b`, and `adhd_c_dx`
 correspond to individual columns in the TSV data.
