@@ -105,6 +105,9 @@ includes information about the questionnaire,
 and `participant_id`, `session_id`, `adhd_b`, and `adhd_c_dx`
 correspond to individual columns in the TSV data.
 
+For TSV examples, read the
+[tabular phenotypic data guidelines appendix](../appendices/phenotype.md#examples).
+
 In addition to the keys available to describe columns in all tabular files
 (`LongName`, `Description`, `Levels`, `Units`, and `TermURL`) the
 `participants.json` file as well as phenotypic files can also include column
@@ -120,8 +123,8 @@ contains `"Phenotype"` in the `dataset_description.json`,
 the following tabular phenotypic data guidelines
 apply to phenotypic and assessment data.
 
--   [1.](../appendices/phenotype.md#1-aggregate-data-across-sessions)
-    Aggregate data across sessions
+-   [1.](../appendices/phenotype.md#1-aggregate-data-across-sessions-using-indexcolumns)
+    Aggregate data across sessions using `"IndexColumns"`
 
 -   [2.](../appendices/phenotype.md#2-always-pair-tabular-data-with-data-dictionaries)
     Always pair tabular data with data dictionaries
@@ -131,10 +134,6 @@ apply to phenotypic and assessment data.
 
 -   [4.](../appendices/phenotype.md#4-ensure-minimal-annotation-for-phenotypic-and-assessment-data)
     Ensure minimal annotation for phenotypic and assessment data
-
--   [5.](../appendices/phenotype.md#5-store-demographic-data-in-the-participants-file-and-instrument-data-in-the-phenotype-directory)
-    Store demographic data in the participants file
-    and instrument data in the phenotype directory
 
 To read more about the guidelines for tabular phenotypic data and examples,
 see the [tabular phenotypic data guidelines appendix](../appendices/phenotype.md).

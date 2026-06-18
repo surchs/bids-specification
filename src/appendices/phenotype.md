@@ -14,14 +14,19 @@ You can make them mandatory during validation by setting the
 [`AdditionalValidation` key](../modality-agnostic-files/dataset-description.md#additional-validation)
 to contain `"Phenotype"` in the `dataset_description.json`.
 
-### 1. Aggregate data across sessions for phenotypic and assessment data
+### 1. Aggregate data across sessions using `"IndexColumns"`
 
-In multi-session datasets, aggregate phenotypic and assessment data across all sessions
+In multi-session datasets,
+aggregate phenotypic and assessment data across all sessions
 into one tabular tab-separated value (TSV) file per measurement tool.
-In order to aggregate, you MUST use the `"IndexColumns"` list field
+In order to aggregate, you MUST use the `"IndexColumns"` list/array field
 in the corresponding JavaScript Object Notation (JSON) sidecar file.
+There are two examples of this usage [below in this appendix](#examples).
 Store each of the TSV and JSON files in the `/phenotype` directory
 using the file-naming template `/phenotype/tool-<ToolName>_phenotype.tsv`.
+Read the [phenotypic and assessment data section](phenotypic-and-assessment-data.md)
+for further explanation of how to use `"IndexColumns"`
+to aggregate longitudinal or multi-session tabular phenotypic data.
 
 ### 2. Always pair tabular data with data dictionaries
 
@@ -65,13 +70,15 @@ all imaging data and tabular phenotypic data MUST have sessions.
 This produces files in which same-participant entries can take up as many rows as needed
 according to the smallest unit of acquisition.
 
-### 5. Use the demographics file for multi-session data
+### 5. Use a demographics file for multi-session data
 
 If there is more than one session for any one participant, then
 it is REQUIRED to provide a demographics file in the `/phenotype` directory
-named as `/phenotype/tool-Demographics_phenotype.tsv`.
+named as `/phenotype/tool-Demographics_phenotype.tsv`
+using the `"IndexColumns"` JSON sidecar field.
 It is RECOMMENDED to store the `age` column for multi-session datasets
-in this demographics file to record participant age at every session separately.
+in this demographics file to record participant age for every session
+on their own rows.
 
 ### 6. Record acquisition time of all sessions with `acq_time`
 

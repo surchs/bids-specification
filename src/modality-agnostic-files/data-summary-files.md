@@ -96,6 +96,7 @@ Choose what makes the most sense for your dataset's expected users.
 The first method is to aggregate into a single file in the phenotypic and assessment data folder
 using the `"IndexColumns"` field in the sidecar JSON.
 Read the [tabular phenotypic data guidelines appendix](../appendices/phenotype.md)
+or the [phenotypic and assessment data section](phenotypic-and-assessment-data.md)
 for an explanation of how to use `"IndexColumns"`
 to aggregate longitudinal or multi-session tabular phenotypic data.
 The second method is to segregate `age` into participant's session files.
@@ -282,6 +283,7 @@ and a guide for using macros can be found at
 ```
 
 Read the [tabular phenotypic data guidelines appendix](../appendices/phenotype.md)
+or the [phenotypic and assessment data section](phenotypic-and-assessment-data.md)
 for an explanation of how to use `"IndexColumns"`
 to aggregate longitudinal or multi-session tabular phenotypic data.
 
@@ -292,14 +294,10 @@ contains `"Phenotype"` in the `dataset_description.json`,
 the following tabular phenotypic data guidelines
 apply to sessions files:
 
--   [6.](../appendices/phenotype.md#6-record-participant-properties-in-the-participants-file-and-session-properties-in-the-sessions-file)
-    Record participant properties in the participants file
-    and session properties in the sessions file
+-   [5.](../appendices/phenotype.md#5-use-a-demographics-file-for-multi-session-data)
+    Use a demographics file for multi-session data
 
--   [7.](../appendices/phenotype.md#7-use-the-sessions-file-at-the-root-level)
-    Use the sessions file at the root-level
-
--   [8.](../appendices/phenotype.md#8-record-acquisition-time-of-all-sessions-with-acq_time)
+-   [6.](../appendices/phenotype.md#6-record-acquisition-time-of-all-sessions-with-acq_time)
     Record acquisition time of all sessions with `acq_time`
 
 To read more about the guidelines for tabular phenotypic data and examples,
